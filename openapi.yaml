@@ -1,48 +1,42 @@
 openapi: 3.0.3
 info:
   title: Notifications API
-  description: Multi-channel notification delivery — email, SMS, push, and webhooks
-  version: 1.5.3
-  contact:
-    name: Platform Team
-    email: platform@acme.com
-  x-domain: notifications
-  x-tier: standard
+  description: Multi-channel notification delivery for Acme Corp services
+  version: 3.1.0
 servers:
   - url: https://notifications.api.example.com/v1
     description: Production
-  - url: https://notifications-dev.api.example.com/v1
-    description: Development
-tags:
-  - name: notifications
-  - name: templates
-  - name: preferences
-  - name: channels
 paths:
   /health:
     get:
       summary: Health check
-      operationId: getHealth
-      tags: [notifications]
+      tags: [health]
       responses:
         '200':
-          description: Healthy
+          description: Service healthy
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   status: { type: string }
-                  channels:
-                    type: object
-                    properties:
-                      email: { type: string }
-                      sms: { type: string }
-                      push: { type: string }
   /notifications:
+    get:
+      summary: List notifications
+      tags: [notifications]
+      responses:
+        '200':
+          description: Notification list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+        '401':
+          description: Unauthorized
     post:
       summary: Send notification
-      operationId: sendNotification
       tags: [notifications]
       requestBody:
         required: true
@@ -53,44 +47,11 @@ paths:
       responses:
         '202':
           description: Notification queued
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Notification'
-    get:
-      summary: List notifications
-      operationId: listNotifications
-      tags: [notifications]
-      parameters:
-        - name: recipient_id
-          in: query
-          schema: { type: string }
-        - name: channel
-          in: query
-          schema:
-            type: string
-            enum: [email, sms, push, webhook]
-        - name: status
-          in: query
-          schema:
-            type: string
-            enum: [queued, sent, delivered, failed, bounced]
-      responses:
-        '200':
-          description: Notification list
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  notifications:
-                    type: array
-                    items: { $ref: '#/components/schemas/Notification' }
-                  total: { type: integer }
+        '400':
+          description: Validation error
   /notifications/{notificationId}:
     get:
-      summary: Get notification status
-      operationId: getNotification
+      summary: Get notification
       tags: [notifications]
       parameters:
         - name: notificationId
@@ -100,140 +61,52 @@ paths:
       responses:
         '200':
           description: Notification details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Notification'
+        '404':
+          description: Not found
   /templates:
     get:
       summary: List templates
-      operationId: listTemplates
       tags: [templates]
       responses:
         '200':
           description: Template list
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  templates:
-                    type: array
-                    items: { $ref: '#/components/schemas/Template' }
+  /subscriptions:
+    get:
+      summary: List subscriptions
+      tags: [subscriptions]
+      responses:
+        '200':
+          description: Subscription list
     post:
-      summary: Create template
-      operationId: createTemplate
-      tags: [templates]
+      summary: Create subscription
+      tags: [subscriptions]
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTemplateRequest'
+              type: object
+              properties:
+                userId: { type: string }
+                channel: { type: string, enum: [email, sms, push] }
+                events: { type: array, items: { type: string } }
       responses:
         '201':
-          description: Template created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Template'
-  /preferences/{userId}:
-    get:
-      summary: Get user preferences
-      operationId: getPreferences
-      tags: [preferences]
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema: { type: string, format: uuid }
-      responses:
-        '200':
-          description: User preferences
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Preferences'
-    put:
-      summary: Update preferences
-      operationId: updatePreferences
-      tags: [preferences]
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema: { type: string, format: uuid }
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Preferences'
-      responses:
-        '200':
-          description: Preferences updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Preferences'
+          description: Subscription created
 components:
   schemas:
-    SendNotificationRequest:
-      type: object
-      required: [recipient_id, channel, template_id]
-      properties:
-        recipient_id: { type: string, format: uuid }
-        channel:
-          type: string
-          enum: [email, sms, push, webhook]
-        template_id: { type: string }
-        variables: { type: object }
-        scheduled_at: { type: string, format: date-time }
-        priority:
-          type: string
-          enum: [low, normal, high, critical]
-          default: normal
     Notification:
       type: object
       properties:
         id: { type: string, format: uuid }
-        recipient_id: { type: string, format: uuid }
-        channel: { type: string }
-        template_id: { type: string }
-        status:
-          type: string
-          enum: [queued, sent, delivered, failed, bounced]
-        sent_at: { type: string, format: date-time }
-        delivered_at: { type: string, format: date-time }
-        failure_reason: { type: string }
+        type: { type: string }
+        status: { type: string, enum: [pending, sent, failed] }
         created_at: { type: string, format: date-time }
-    Template:
+    SendNotificationRequest:
       type: object
+      required: [type, recipient]
       properties:
-        id: { type: string }
-        name: { type: string }
-        channel: { type: string }
+        type: { type: string }
+        recipient: { type: string }
         subject: { type: string }
         body: { type: string }
-        variables: { type: array, items: { type: string } }
-        created_at: { type: string, format: date-time }
-    CreateTemplateRequest:
-      type: object
-      required: [name, channel, body]
-      properties:
-        name: { type: string }
-        channel: { type: string, enum: [email, sms, push] }
-        subject: { type: string }
-        body: { type: string }
-        variables: { type: array, items: { type: string } }
-    Preferences:
-      type: object
-      properties:
-        user_id: { type: string, format: uuid }
-        email_enabled: { type: boolean }
-        sms_enabled: { type: boolean }
-        push_enabled: { type: boolean }
-        marketing_opt_in: { type: boolean }
-        digest_frequency:
-          type: string
-          enum: [immediate, daily, weekly, never]
