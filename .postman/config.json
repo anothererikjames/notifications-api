@@ -1,0 +1,6 @@
+{
+  "workspaceName": "notifications-api",
+  "domain": "notifications",
+  "collections": "postman/collections",
+  "environments": "postman/environments"
+}
