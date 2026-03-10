@@ -1,112 +1,93 @@
 openapi: 3.0.3
 info:
   title: Notifications API
-  description: Multi-channel notification delivery for Acme Corp services
-  version: 3.1.0
+  description: Multi-channel notification delivery service
+  version: "1.0.0"
+  # Missing contact info (governance violation)
+
 servers:
   - url: https://notifications.api.example.com/v1
     description: Production
+
 paths:
-  /health:
-    get:
-      summary: Health check
-      tags: [health]
-      responses:
-        '200':
-          description: Service healthy
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status: { type: string }
-  /notifications:
-    get:
-      summary: List notifications
-      tags: [notifications]
-      responses:
-        '200':
-          description: Notification list
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Notification'
-        '401':
-          description: Unauthorized
+  /messages/email:
     post:
-      summary: Send notification
-      tags: [notifications]
+      operationId: sendEmail
+      summary: Send an email notification
+      tags: [Messages]
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SendNotificationRequest'
+              $ref: "#/components/schemas/EmailMessage"
       responses:
-        '202':
-          description: Notification queued
-        '400':
-          description: Validation error
-  /notifications/{notificationId}:
-    get:
-      summary: Get notification
-      tags: [notifications]
-      parameters:
-        - name: notificationId
-          in: path
-          required: true
-          schema: { type: string, format: uuid }
+        "202":
+          description: Email queued for delivery
+
+  /messages/sms:
+    post:
+      operationId: sendSms
+      summary: Send an SMS notification
+      tags: [Messages]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SmsMessage"
       responses:
-        '200':
-          description: Notification details
-        '404':
-          description: Not found
+        "202":
+          description: SMS queued
+
   /templates:
     get:
-      summary: List templates
-      tags: [templates]
+      operationId: listTemplates
+      summary: List notification templates
+      tags: [Templates]
       responses:
-        '200':
-          description: Template list
-  /subscriptions:
+        "200":
+          description: Templates list
+
+  /preferences/{userId}:
     get:
-      summary: List subscriptions
-      tags: [subscriptions]
+      operationId: getPreferences
+      summary: Get notification preferences for a user
+      tags: [Preferences]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
-        '200':
-          description: Subscription list
-    post:
-      summary: Create subscription
-      tags: [subscriptions]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId: { type: string }
-                channel: { type: string, enum: [email, sms, push] }
-                events: { type: array, items: { type: string } }
-      responses:
-        '201':
-          description: Subscription created
-components:
+        "200":
+          description: User preferences
+        "404":
+          description: User not found
+
+
+
   schemas:
-    Notification:
+    EmailMessage:
       type: object
+      required: [to, subject, templateId]
       properties:
-        id: { type: string, format: uuid }
-        type: { type: string }
-        status: { type: string, enum: [pending, sent, failed] }
-        created_at: { type: string, format: date-time }
-    SendNotificationRequest:
+        to:
+          type: string
+          format: email
+        subject:
+          type: string
+        templateId:
+          type: string
+        variables:
+          type: object
+
+    SmsMessage:
       type: object
-      required: [type, recipient]
+      required: [to, body]
       properties:
-        type: { type: string }
-        recipient: { type: string }
-        subject: { type: string }
-        body: { type: string }
+        to:
+          type: string
+        body:
+          type: string
