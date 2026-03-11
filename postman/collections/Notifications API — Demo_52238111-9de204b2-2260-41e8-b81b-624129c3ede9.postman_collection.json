@@ -1,0 +1,361 @@
+{
+  "info": {
+    "_postman_id": "9de204b2-2260-41e8-b81b-624129c3ede9",
+    "name": "Notifications API — Demo",
+    "description": "Demo collection for notifications service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST /messages/email",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 2xx\", () => {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+              "});",
+              "pm.test(\"Response time < 500ms\", () => {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "pm.test(\"Response has valid JSON\", () => {",
+              "  pm.response.to.have.header(\"content-type\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "4781623d-391b-4b09-abc5-5800843e7b45",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages/email",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "email"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST /messages/sms",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 2xx\", () => {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+              "});",
+              "pm.test(\"Response time < 500ms\", () => {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "pm.test(\"Response has valid JSON\", () => {",
+              "  pm.response.to.have.header(\"content-type\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "969008e0-6a9a-4f8b-82bf-64de1262f4a3",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages/sms",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "sms"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST /messages/push",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 2xx\", () => {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+              "});",
+              "pm.test(\"Response time < 500ms\", () => {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "pm.test(\"Response has valid JSON\", () => {",
+              "  pm.response.to.have.header(\"content-type\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "e3911bf0-56bb-4a87-a533-ef3c1c6ae923",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages/push",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "push"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /templates",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 2xx\", () => {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+              "});",
+              "pm.test(\"Response time < 500ms\", () => {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "pm.test(\"Response has valid JSON\", () => {",
+              "  pm.response.to.have.header(\"content-type\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "90b6493b-c4ba-46da-8d26-0d9a59c529bd",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/templates",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "templates"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST /templates",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 2xx\", () => {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+              "});",
+              "pm.test(\"Response time < 500ms\", () => {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "pm.test(\"Response has valid JSON\", () => {",
+              "  pm.response.to.have.header(\"content-type\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "903d8f73-7c4a-4155-b755-69d8f73286d2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/templates",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "templates"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /preferences/:userId",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 2xx\", () => {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+              "});",
+              "pm.test(\"Response time < 500ms\", () => {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "pm.test(\"Response has valid JSON\", () => {",
+              "  pm.response.to.have.header(\"content-type\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "e6d9ce77-4e79-4632-917f-e2245ef12b35",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/preferences/{{userId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "preferences",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT /preferences/:userId",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 2xx\", () => {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+              "});",
+              "pm.test(\"Response time < 500ms\", () => {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "pm.test(\"Response has valid JSON\", () => {",
+              "  pm.response.to.have.header(\"content-type\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "42a39b68-6ea1-4514-9e6a-3016427782f0",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/preferences/{{userId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "preferences",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.example.com/v1"
+    },
+    {
+      "key": "authToken",
+      "value": ""
+    }
+  ]
+}

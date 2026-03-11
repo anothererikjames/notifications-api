@@ -1,6 +1,17 @@
 {
-  "workspaceName": "notifications-api",
-  "domain": "notifications",
-  "collections": "postman/collections",
-  "environments": "postman/environments"
+  "workspace": {
+    "id": "2d61c7e5-766e-4710-a7b0-1b253b6fe59f"
+  },
+  "entities": {
+    "collections": [
+      "../postman/collections/Notifications API — Demo_52238111-9de204b2-2260-41e8-b81b-624129c3ede9.postman_collection.json"
+    ],
+    "environments": [
+      "../postman/environments/Notifications API — Development_52238111-957b0e10-74ca-4c74-b4a1-2f144083f5d6.postman_environment.json",
+      "../postman/environments/Notifications API — Production_52238111-fbb14e20-16b3-4882-adc1-9683ea030a7d.postman_environment.json"
+    ],
+    "specs": [],
+    "flows": [],
+    "globals": []
+  }
 }
