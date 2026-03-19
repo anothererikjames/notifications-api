@@ -1,0 +1,44 @@
+{
+  "templates": [
+    {
+      "id": 1,
+      "name": "Test templates 1",
+      "status": "active",
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Test templates 2",
+      "status": "active",
+      "createdAt": "2026-01-02T00:00:00Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "name": "Test messages 1",
+      "status": "active",
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Test messages 2",
+      "status": "active",
+      "createdAt": "2026-01-02T00:00:00Z"
+    }
+  ],
+  "channels": [
+    {
+      "id": 1,
+      "name": "Test channels 1",
+      "status": "active",
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Test channels 2",
+      "status": "active",
+      "createdAt": "2026-01-02T00:00:00Z"
+    }
+  ]
+}
